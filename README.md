@@ -1,2 +1,2 @@
-# RoboticsCapePy
+# PyRoboticsCape
 Python Bindings for libroboticscape
