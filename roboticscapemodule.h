@@ -7,16 +7,16 @@
 #include <Python.h>
 #include <roboticscape.h>
 
-static PyObject *rcInitialize(PyObject *self);
-static PyObject *rcCleanup(PyObject *self);
+static PyObject *rcInitialize(PyObject *self, PyObject *args);
+static PyObject *rcCleanup(PyObject *self, PyObject *args);
 
-static PyObject *rcGetState(PyObject *self);
-static PyObject *rcPrintState(PyObject *self);
+static PyObject *rcGetState(PyObject *self, PyObject *args);
+static PyObject *rcPrintState(PyObject *self, PyObject *args);
 
 static PyObject *rcGetEncoderPos(PyObject *self, PyObject *args);
 
-static PyObject *rcBatteryVoltage(PyObject *self);
-static PyObject *rcDCJackVoltage(PyObject *self);
+static PyObject *rcBatteryVoltage(PyObject *self, PyObject *args);
+static PyObject *rcDCJackVoltage(PyObject *self, PyObject *args);
 
 static PyMethodDef RoboticsCapeMethods[] = {
     {"rcInitialize", rcInitialize, METH_O,
