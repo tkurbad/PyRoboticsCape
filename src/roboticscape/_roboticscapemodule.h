@@ -13,7 +13,7 @@ static PyObject *rcInitialize(PyObject *self, PyObject *args);
 static PyObject *rcCleanup(PyObject *self, PyObject *args);
 
 static PyObject *rcGetState(PyObject *self, PyObject *args);
-static PyObject *rcPrintState(PyObject *self, PyObject *args);
+static PyObject *rcSetState(PyObject *self, PyObject *args);
 
 static PyObject *rcGetEncoderPos(PyObject *self, PyObject *args);
 
@@ -27,8 +27,8 @@ static PyMethodDef RoboticsCapeMethods[] = {
         "Shut down RoboticsCape library and functions."},
     {"rcGetState", rcGetState, METH_NOARGS,
         "Get high level robot state."},
-    {"rcPrintState", rcPrintState, METH_NOARGS,
-        "Print textual representation of high level robot state."},
+    {"rcPrintState", rcSetState, METH_VARARGS,
+        "Set high level robot state."},
     {"rcGetEncoderPos", rcGetEncoderPos, METH_VARARGS,
         "Get quadrature encoder position for given channel or for all channels."},
     {"rcBatteryVoltage", rcBatteryVoltage, METH_NOARGS,

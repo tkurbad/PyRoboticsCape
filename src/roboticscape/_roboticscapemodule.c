@@ -33,20 +33,38 @@ static PyObject *rcGetState(PyObject *self, PyObject *args) {
     return Py_BuildValue("i", state);
 }
 
-static PyObject *rcPrintState(PyObject *self, PyObject *args) {
+static PyObject *rcSetState(PyObject *self, PyObject *args) {
+    int state;
     int retval;
 
-    retval = rc_print_state();
+    if (!PyArg_ParseTuple(args, "i", &state)) {
+        PyErr_SetString(PyExc_ValueError, "Integer argument (state to set) required.");
+        PyErr_PrintEx(0);
+    }
+
+    if ((state < 0) || (state > 3)) {
+        PyErr_SetString(PyExc_ValueError, "State has to be >= 0 and <= 3.");
+        PyErr_PrintEx(0);
+    }
+
+    retval = rc_set_state(state);
 
     return Py_BuildValue("i", retval);
 }
 
 static PyObject *rcGetEncoderPos(PyObject *self, PyObject *args) {
-    long position = 0;
+    long position;
     int channel;
 
-    if (!PyArg_ParseTuple(args, "i", &channel))
-        return Py_BuildValue("l", position);
+    if (!PyArg_ParseTuple(args, "i", &channel)) {
+        PyErr_SetString(PyExc_ValueError, "Integer argument (encoder channel number) required.");
+        PyErr_PrintEx(0);
+    }
+
+    if ((channel < 1) || (channel > 4)) {
+        PyErr_SetString(PyExc_ValueError, "Channel number has to be >= 1 and <= 4.");
+        PyErr_PrintEx(0);
+    }
 
     position = (long)rc_get_encoder_pos(channel);
 
