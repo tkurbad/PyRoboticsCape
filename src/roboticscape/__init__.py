@@ -4,15 +4,15 @@
 #
 
 from _roboticscape import *
+from enum import IntEnum
 
 # Return values of rcGetState(), input to rcSetState()
-STATE = dict(
-    UNINITIALIZED   = 0,
-    RUNNING         = 1,
-    PAUSED          = 2,
-    EXITING         = 3,
-)
+class State(IntEnum):
+    UNINITIALIZED   = 0
+    RUNNING         = 1
+    PAUSED          = 2
+    EXITING         = 3
 
 def rcGetStateAsName():
     state = rcGetState()
-    return list(STATE.keys())[list(STATE.values()).index(state)]
+    return State(state).name
