@@ -7,7 +7,7 @@
 #include <Python.h>
 #include "roboticscapemodule.h"
 
-static PyObject *rcInitialize(PyObject *self, PyObject *args) {
+static PyObject *rcInitialize(PyObject *self, NULL) {
     int retval;
 
     retval = rc_initialize();
@@ -15,7 +15,7 @@ static PyObject *rcInitialize(PyObject *self, PyObject *args) {
     return Py_BuildValue("i", retval);
 }
 
-static PyObject *rcCleanup(PyObject *self, PyObject *args) {
+static PyObject *rcCleanup(PyObject *self, NULL) {
     int retval;
 
     retval = rc_cleanup();
@@ -23,7 +23,7 @@ static PyObject *rcCleanup(PyObject *self, PyObject *args) {
     return Py_BuildValue("i", retval);
 }
 
-static PyObject *rcGetState(PyObject *self, PyObject *args) {
+static PyObject *rcGetState(PyObject *self, NULL) {
     int state;
 
     state = (int)rc_get_state();
@@ -31,7 +31,7 @@ static PyObject *rcGetState(PyObject *self, PyObject *args) {
     return Py_BuildValue("i", state);
 }
 
-static PyObject *rcPrintState(PyObject *self, PyObject *args) {
+static PyObject *rcPrintState(PyObject *self, NULL) {
     int retval;
 
     retval = rc_print_state();
@@ -51,7 +51,7 @@ static PyObject *rcGetEncoderPos(PyObject *self, PyObject *args) {
     return Py_BuildValue("l", position);
 }
 
-static PyObject *rcBatteryVoltage(PyObject *self, PyObject *args) {
+static PyObject *rcBatteryVoltage(PyObject *self, NULL) {
     float voltage;
 
     voltage = rc_battery_voltage();
@@ -59,7 +59,7 @@ static PyObject *rcBatteryVoltage(PyObject *self, PyObject *args) {
     return Py_BuildValue("f", voltage);
 }
 
-static PyObject *rcDCJackVoltage(PyObject *self, PyObject *args) {
+static PyObject *rcDCJackVoltage(PyObject *self, NULL) {
     float voltage;
 
     voltage = rc_dc_jack_voltage();
