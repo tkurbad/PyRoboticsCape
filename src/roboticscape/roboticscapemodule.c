@@ -70,7 +70,7 @@ static PyObject *rcDCJackVoltage(PyObject *self, PyObject *args) {
 }
 
 PyMODINIT_FUNC
-PyInit_roboticscape(void)
+PyInit__roboticscape(void)
 {
 	PyObject* m;
 
