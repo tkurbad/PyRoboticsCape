@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
 try:
-    from setuptools import setup, Extension
+    from setuptools import find_packages, setup, Extension
 except ImportError:
-    from distutils.core import setup, Extension
+    from distutils.core import find_packages, setup, Extension
 
 setup(
     name = 'roboticscape',
@@ -15,10 +15,11 @@ setup(
 	maintainer_email = 'beaglebone@tk-webart.de',
 	license = 'MIT',
 	url = 'https://github.com/StrawsonDesign/Robotics_Cape_Installer',
-    package_data = {'scripts': ['roboticscape.py',]},
+    package_dir={"": "src"},
+    packages=find_packages(where="src"),
 	ext_modules = [
         Extension('roboticscape',
-                  ['roboticscapemodule.c'],
-                  extra_compile_args = ['-I.'],
+                  ['src/roboticscapemodule.c'],
+                  extra_compile_args = ['-Isrc'],
                   extra_link_args = ['-lroboticscape'])],
 )
