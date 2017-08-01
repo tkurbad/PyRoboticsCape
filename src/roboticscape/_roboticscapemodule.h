@@ -27,7 +27,7 @@ static PyMethodDef RoboticsCapeMethods[] = {
         "Shut down RoboticsCape library and functions."},
     {"rcGetState", rcGetState, METH_NOARGS,
         "Get high level robot state."},
-    {"rcPrintState", rcSetState, METH_VARARGS,
+    {"rcSetState", rcSetState, METH_VARARGS,
         "Set high level robot state."},
     {"rcGetEncoderPos", rcGetEncoderPos, METH_VARARGS,
         "Get quadrature encoder position for given channel or for all channels."},
