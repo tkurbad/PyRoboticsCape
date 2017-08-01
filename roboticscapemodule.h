@@ -19,19 +19,19 @@ static PyObject *rcBatteryVoltage(PyObject *self);
 static PyObject *rcDCJackVoltage(PyObject *self);
 
 static PyMethodDef RoboticsCapeMethods[] = {
-    {"rcInitialize", rcInitialize, METH_NOARGS,
+    {"rcInitialize", rcInitialize, METH_VARARGS,
         "Initialize RoboticsCape hard- and software."},
-    {"rcCleanup", rcCleanup, METH_NOARGS,
+    {"rcCleanup", rcCleanup, METH_VARARGS,
         "Shut down RoboticsCape library and functions."},
-    {"rcGetState", rcGetState, METH_NOARGS,
+    {"rcGetState", rcGetState, METH_VARARGS,
         "Get high level robot state."},
-    {"rcPrintState", rcPrintState, METH_NOARGS,
+    {"rcPrintState", rcPrintState, METH_VARARGS,
         "Print textual representation of high level robot state."},
     {"rcGetEncoderPos", rcGetEncoderPos, METH_VARARGS,
         "Get quadrature encoder position for given channel or for all channels."},
-    {"rcBatteryVoltage", rcBatteryVoltage, METH_NOARGS,
+    {"rcBatteryVoltage", rcBatteryVoltage, METH_VARARGS,
         "Get LiPo battery voltage."},
-    {"rcDCJackVoltage", rcDCJackVoltage, METH_NOARGS,
+    {"rcDCJackVoltage", rcDCJackVoltage, METH_VARARGS,
         "Get DC jack voltage."},
 
     {NULL, NULL, 0, NULL}        /* Sentinel */
