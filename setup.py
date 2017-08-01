@@ -19,7 +19,7 @@ setup(
     packages=find_packages(where="src"),
 	ext_modules = [
         Extension('_roboticscape',
-                  ['src/roboticscape/roboticscapemodule.c'],
+                  ['src/roboticscape/_roboticscapemodule.c'],
                   extra_compile_args = ['-Isrc/roboticscape'],
                   extra_link_args = ['-lroboticscape'])],
 )
