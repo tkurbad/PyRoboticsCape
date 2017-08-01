@@ -59,7 +59,7 @@ static PyObject *rcBatteryVoltage(PyObject *self, PyObject *args) {
     return Py_BuildValue("f", voltage);
 }
 
-static PyObject *rcDCJackVoltage(PyObject *self) {
+static PyObject *rcDCJackVoltage(PyObject *self, PyObject *args) {
     float voltage;
 
     voltage = rc_dc_jack_voltage();
