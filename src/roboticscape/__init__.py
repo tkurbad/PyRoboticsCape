@@ -3,4 +3,4 @@
 # Copyright (C) 2017 Torsten Kurbad <beaglebone@tk-webart.de>
 #
 
-import _roboticscape
+from _roboticscape import *
