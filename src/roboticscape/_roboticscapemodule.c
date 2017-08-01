@@ -7,7 +7,7 @@
  */
 
 #include <Python.h>
-#include "roboticscapemodule.h"
+#include "_roboticscapemodule.h"
 
 static PyObject *rcInitialize(PyObject *self, PyObject *args) {
     int retval;
