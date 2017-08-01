@@ -7,10 +7,10 @@ from _roboticscape import *
 
 # Return values of rcGetState(), input to rcSetState()
 STATE = dict(
-    UNINITIALIZED   = 0
-    RUNNING         = 1
-    PAUSED          = 2
-    EXITING         = 3
+    UNINITIALIZED   = 0,
+    RUNNING         = 1,
+    PAUSED          = 2,
+    EXITING         = 3,
 )
 
 def rcGetStateAsName():
