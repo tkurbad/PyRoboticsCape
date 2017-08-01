@@ -15,6 +15,7 @@ setup(
 	maintainer_email = 'beaglebone@tk-webart.de',
 	license = 'MIT',
 	url = 'https://github.com/StrawsonDesign/Robotics_Cape_Installer',
+    package_data = {'scripts': ['roboticscape.py',]},
 	ext_modules = [
         Extension('roboticscape',
                   ['roboticscapemodule.c'],
