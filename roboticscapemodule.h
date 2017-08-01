@@ -7,11 +7,32 @@
 #include <Python.h>
 #include <roboticscape.h>
 
+static PyObject *rcInitialize(PyObject *self);
+static PyObject *rcCleanup(PyObject *self);
+
+static PyObject *rcGetState(PyObject *self);
+static PyObject *rcPrintState(PyObject *self);
+
 static PyObject *rcGetEncoderPos(PyObject *self, PyObject *args);
 
+static PyObject *rcBatteryVoltage(PyObject *self);
+static PyObject *rcDCJackVoltage(PyObject *self);
+
 static PyMethodDef RoboticsCapeMethods[] = {
+    {"rcInitialize", rcInitialize, METH_NOARGS,
+        "Initialize RoboticsCape hard- and software."},
+    {"rcCleanup", rcCleanup, METH_NOARGS,
+        "Shut down RoboticsCape library and functions."},
+    {"rcGetState", rcGetState, METH_NOARGS,
+        "Get high level robot state."},
+    {"rcPrintState", rcPrintState, METH_NOARGS,
+        "Print textual representation of high level robot state."},
     {"rcGetEncoderPos", rcGetEncoderPos, METH_VARARGS,
-        "Get quadrature encoder position for the given channel."},
+        "Get quadrature encoder position for given channel or for all channels."},
+    {"rcBatteryVoltage", rcBatteryVoltage, METH_NOARGS,
+        "Get LiPo battery voltage."},
+    {"rcDCJackVoltage", rcDCJackVoltage, METH_NOARGS,
+        "Get DC jack voltage."},
 
     {NULL, NULL, 0, NULL}        /* Sentinel */
 };
