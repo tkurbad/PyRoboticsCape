@@ -9,6 +9,8 @@
 #include <Python.h>
 #include <roboticscape.h>
 
+
+// Method headers
 static PyObject *rcInitialize(PyObject *self, PyObject *args);
 static PyObject *rcCleanup(PyObject *self, PyObject *args);
 
@@ -31,7 +33,11 @@ static PyObject *rcADCVolt(PyObject *self, PyObject *args);
 static PyObject *rcEnableServoPowerRail(PyObject *self, PyObject *args);
 static PyObject *rcDisableServoPowerRail(PyObject *self, PyObject *args);
 
+// TODO: Implement rcGetPauseButton() and rcGetModeButton in Python
+static PyObject *rcGetButton(PyObject *self, PyObject *args);
 
+
+// Method definitions
 static PyMethodDef RoboticsCapeMethods[] = {
     {"rcInitialize", rcInitialize, METH_NOARGS,
         "Initialize RoboticsCape hard- and software."},
@@ -63,10 +69,14 @@ static PyMethodDef RoboticsCapeMethods[] = {
         "Enable Servo 6V Power Rail."},
     {"rcDisableServoPowerRail", rcDisableServoPowerRail, METH_NOARGS,
         "Enable Servo 6V Power Rail."},
+    {"rcGetButton", rcGetButton, METH_VARARGS,
+        "Get state of pause (0) or mode (1) button (0 = released, 1 = pressed)."},
 
     {NULL, NULL, 0, NULL}        /* Sentinel */
 };
 
+
+// Module defintion
 static struct PyModuleDef RoboticsCapeModule = {
     PyModuleDef_HEAD_INIT,
     "RoboticsCape",         /* m_name */

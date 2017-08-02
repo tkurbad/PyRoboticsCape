@@ -235,6 +235,28 @@ static PyObject *rcDisableServoPowerRail(PyObject *self, PyObject *args) {
     return Py_BuildValue("i", retval);
 }
 
+static PyObject *rcGetButton(PyObject *self, PyObject *args) {
+    int state;
+    int button;
+
+    if (!PyArg_ParseTuple(args, "i", &button)) {
+        PyErr_SetString(PyExc_ValueError, "Integer argument (pause or mode button) required.");
+        return NULL;
+    }
+
+    if ((button < 0) || (led > button)) {
+        PyErr_SetString(PyExc_ValueError, "Button argument has to be pause (0) or mode (1).");
+        return NULL;
+    }
+
+    if (button == 0)
+        state = rc_get_pause_button();
+    else
+        state = rc_get_mode_button();
+
+    return Py_BuildValue("i", state);
+}
+
 
 PyMODINIT_FUNC
 PyInit__roboticscape(void)
