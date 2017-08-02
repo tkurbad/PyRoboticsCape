@@ -15,10 +15,22 @@ static PyObject *rcCleanup(PyObject *self, PyObject *args);
 static PyObject *rcGetState(PyObject *self, PyObject *args);
 static PyObject *rcSetState(PyObject *self, PyObject *args);
 
+static PyObject *rcGetLED(PyObject *self, PyObject *args);
+static PyObject *rcSetLED(PyObject *self, PyObject *args);
+static PyObject *rcBlinkLED(PyObject *self, PyObject *args);
+
 static PyObject *rcGetEncoderPos(PyObject *self, PyObject *args);
+static PyObject *rcSetEncoderPos(PyObject *self, PyObject *args);
 
 static PyObject *rcBatteryVoltage(PyObject *self, PyObject *args);
 static PyObject *rcDCJackVoltage(PyObject *self, PyObject *args);
+
+static PyObject *rcADCRaw(PyObject *self, PyObject *args);
+static PyObject *rcADCVolt(PyObject *self, PyObject *args);
+
+static PyObject *rcEnableServoPowerRail(PyObject *self, PyObject *args);
+static PyObject *rcDisableServoPowerRail(PyObject *self, PyObject *args);
+
 
 static PyMethodDef RoboticsCapeMethods[] = {
     {"rcInitialize", rcInitialize, METH_NOARGS,
@@ -29,12 +41,28 @@ static PyMethodDef RoboticsCapeMethods[] = {
         "Get high level robot state."},
     {"rcSetState", rcSetState, METH_VARARGS,
         "Set high level robot state."},
+    {"rcGetLED", rcGetLED, METH_VARARGS,
+        "Get state of green or red LED (0 = off, 1 = on)."},
+    {"rcSetLED", rcSetLED, METH_VARARGS,
+        "Turn on/off green or red LED (0 = off, 1 = on)."},
+    {"rcBlinkLED", rcBlinkLED, METH_VARARGS,
+        "Blink green or red LED with a given frequency (Hz) for a finite period (s)."},
     {"rcGetEncoderPos", rcGetEncoderPos, METH_VARARGS,
-        "Get quadrature encoder position for given channel or for all channels."},
+        "Get quadrature encoder position for given channel (1-4)."},
+    {"rcSetEncoderPos", rcSetEncoderPos, METH_VARARGS,
+        "Set quadrature encoder position for given channel (1-4)."},
     {"rcBatteryVoltage", rcBatteryVoltage, METH_NOARGS,
         "Get LiPo battery voltage."},
     {"rcDCJackVoltage", rcDCJackVoltage, METH_NOARGS,
         "Get DC jack voltage."},
+    {"rcADCRaw", rcADCRaw, METH_VARARGS,
+        "Get raw ADC value for given channel (0-6)."},
+    {"rcADCVolt", rcADCVolt, METH_VARARGS,
+        "Get ADC voltage for given channel (0-6)."},
+    {"rcEnableServoPowerRail", rcEnableServoPowerRail, METH_NOARGS,
+        "Enable Servo 6V Power Rail."},
+    {"rcDisableServoPowerRail", rcDisableServoPowerRail, METH_NOARGS,
+        "Enable Servo 6V Power Rail."},
 
     {NULL, NULL, 0, NULL}        /* Sentinel */
 };
