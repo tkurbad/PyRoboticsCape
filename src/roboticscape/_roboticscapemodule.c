@@ -126,6 +126,120 @@ static PyObject *rcBlinkLED(PyObject *self, PyObject *args) {
     return Py_BuildValue("i", retval);
 }
 
+static PyObject *rcEnableMotors(PyObject *self, PyObject *args) {
+    int retval;
+
+    retval = rc_enable_motors();
+
+    return Py_BuildValue("i", retval);
+}
+
+static PyObject *rcDisableMotors(PyObject *self, PyObject *args) {
+    int retval;
+
+    retval = rc_disable_motors();
+
+    return Py_BuildValue("i", retval);
+}
+
+static PyObject *rcSetMotor(PyObject *self, PyObject *args) {
+    int retval;
+    int motor;
+    float duty;
+
+    if (!PyArg_ParseTuple(args, "if", &motor, &duty)) {
+        PyErr_SetString(PyExc_ValueError, "Integer and float argument (motor number, duty cycle) required.");
+        return NULL;
+    }
+
+    if ((motor < 1) || (motor > 8)) {
+        PyErr_SetString(PyExc_ValueError, "Motor number has to be >= 1 and <= 4.");
+        return NULL;
+    }
+
+    if ((duty < -1.0) || (duty > 1.0)) {
+        PyErr_SetString(PyExc_ValueError, "Duty cycle has to be >= -1.0 and <= 1.0.");
+        return NULL;
+    }
+
+    retval = rc_set_motor(motor, duty);
+
+    return Py_BuildValue("i", retval);
+}
+
+static PyObject *rcSetMotorAll(PyObject *self, PyObject *args) {
+    int retval;
+    float duty;
+
+    if (!PyArg_ParseTuple(args, "f", &duty)) {
+        PyErr_SetString(PyExc_ValueError, "Float argument (duty cycle) required.");
+        return NULL;
+    }
+
+    if ((duty < -1.0) || (duty > 1.0)) {
+        PyErr_SetString(PyExc_ValueError, "Duty cycle has to be >= -1.0 and <= 1.0.");
+        return NULL;
+    }
+
+    retval = rc_set_motor_all(duty);
+
+    return Py_BuildValue("i", retval);
+}
+
+static PyObject *rcSetMotorFreeSpin(PyObject *self, PyObject *args) {
+    int retval;
+    int motor;
+
+    if (!PyArg_ParseTuple(args, "i", &motor)) {
+        PyErr_SetString(PyExc_ValueError, "Integer argument (motor number) required.");
+        return NULL;
+    }
+
+    if ((motor < 1) || (motor > 8)) {
+        PyErr_SetString(PyExc_ValueError, "Motor number has to be >= 1 and <= 4.");
+        return NULL;
+    }
+
+    retval = rc_set_motor_free_spin(motor);
+
+    return Py_BuildValue("i", retval);
+}
+
+static PyObject *rcSetMotorFreeSpinAll(PyObject *self, PyObject *args) {
+    int retval;
+
+    retval = rc_set_motor_free_spin_all();
+
+    return Py_BuildValue("i", retval);
+}
+
+static PyObject *rcSetMotorBrake(PyObject *self, PyObject *args) {
+    int retval;
+    int motor;
+
+    if (!PyArg_ParseTuple(args, "i", &motor)) {
+        PyErr_SetString(PyExc_ValueError, "Integer argument (motor number) required.");
+        return NULL;
+    }
+
+    if ((motor < 1) || (motor > 8)) {
+        PyErr_SetString(PyExc_ValueError, "Motor number has to be >= 1 and <= 4.");
+        return NULL;
+    }
+
+    retval = rc_set_motor_brake(motor);
+
+    return Py_BuildValue("i", retval);
+}
+
+static PyObject *rcSetMotorBrakeAll(PyObject *self, PyObject *args) {
+    int retval;
+
+    retval = rc_set_motor_brake_all();
+
+    return Py_BuildValue("i", retval);
+}
+
 static PyObject *rcGetEncoderPos(PyObject *self, PyObject *args) {
     long position;
     int channel;
@@ -231,6 +345,172 @@ static PyObject *rcDisableServoPowerRail(PyObject *self, PyObject *args) {
     int retval;
 
     retval = rc_disable_servo_power_rail();
+
+    return Py_BuildValue("i", retval);
+}
+
+static PyObject *rcSendServoPulseUs(PyObject *self, PyObject *args) {
+    int retval;
+    int channel;
+    int us;
+
+    if (!PyArg_ParseTuple(args, "ii", &channel, &us)) {
+        PyErr_SetString(PyExc_ValueError, "Two integer arguments (servo channel, microseconds) required.");
+        return NULL;
+    }
+
+    if ((channel < 1) || (channel > 8)) {
+        PyErr_SetString(PyExc_ValueError, "Channel number has to be >= 1 and <= 8.");
+        return NULL;
+    }
+
+    retval = rc_send_servo_pulse_us(channel, us);
+
+    return Py_BuildValue("i", retval);
+}
+
+static PyObject *rcSendServoPulseUsAll(PyObject *self, PyObject *args) {
+    int retval;
+    int us;
+
+    if (!PyArg_ParseTuple(args, "i", &us)) {
+        PyErr_SetString(PyExc_ValueError, "Integer argument (microseconds) required.");
+        return NULL;
+    }
+
+    retval = rc_send_servo_pulse_us_all(us);
+
+    return Py_BuildValue("i", retval);
+}
+
+static PyObject *rcSendServoPulseNormalized(PyObject *self, PyObject *args) {
+    int retval;
+    int channel;
+    float input;
+
+    if (!PyArg_ParseTuple(args, "if", &channel, &input)) {
+        PyErr_SetString(PyExc_ValueError, "Integer and float arguments (servo channel, normalized input) required.");
+        return NULL;
+    }
+
+    if ((channel < 1) || (channel > 8)) {
+        PyErr_SetString(PyExc_ValueError, "Channel number has to be >= 1 and <= 8.");
+        return NULL;
+    }
+
+    if ((input < -1.5) || (input > 1.5)) {
+        PyErr_SetString(PyExc_ValueError, "Normalized input has to be >= -1.5 and <= 1.5.");
+        return NULL;
+    }
+
+    retval = rc_send_servo_pulse_normalized(channel, input);
+
+    return Py_BuildValue("i", retval);
+}
+
+static PyObject *rcSendServoPulseNormalizedAll(PyObject *self, PyObject *args) {
+    int retval;
+    float input;
+
+    if (!PyArg_ParseTuple(args, "f", &input)) {
+        PyErr_SetString(PyExc_ValueError, "Float argument (normalized input) required.");
+        return NULL;
+    }
+
+    if ((input < -1.5) || (input > 1.5)) {
+        PyErr_SetString(PyExc_ValueError, "Normalized input has to be >= -1.5 and <= 1.5.");
+        return NULL;
+    }
+
+    retval = rc_send_servo_pulse_normalized_all(channel, input);
+
+    return Py_BuildValue("i", retval);
+}
+
+static PyObject *rcSendESCPulseNormalized(PyObject *self, PyObject *args) {
+    int retval;
+    int channel;
+    float input;
+
+    if (!PyArg_ParseTuple(args, "if", &channel, &input)) {
+        PyErr_SetString(PyExc_ValueError, "Integer and float argument (ESC channel, normalized input) required.");
+        return NULL;
+    }
+
+    if ((channel < 1) || (channel > 8)) {
+        PyErr_SetString(PyExc_ValueError, "Channel number has to be >= 1 and <= 8.");
+        return NULL;
+    }
+
+    if ((input < -0.1) || (input > 1.0)) {
+        PyErr_SetString(PyExc_ValueError, "Normalized input has to be >= -0.1 and <= 1.0.");
+        return NULL;
+    }
+
+    retval = rc_send_esc_pulse_normalized(channel, input);
+
+    return Py_BuildValue("i", retval);
+}
+
+static PyObject *rcSendESCPulseNormalizedAll(PyObject *self, PyObject *args) {
+    int retval;
+    float input;
+
+    if (!PyArg_ParseTuple(args, "f", &input)) {
+        PyErr_SetString(PyExc_ValueError, "Float argument (normalized input) required.");
+        return NULL;
+    }
+
+    if ((input < -0.1) || (input > 1.0)) {
+        PyErr_SetString(PyExc_ValueError, "Normalized input has to be >= -0.1 and <= 1.0.");
+        return NULL;
+    }
+
+    retval = rc_send_esc_pulse_normalized_all(channel, input);
+
+    return Py_BuildValue("i", retval);
+}
+
+static PyObject *rcSendOneshotPulseNormalized(PyObject *self, PyObject *args) {
+    int retval;
+    int channel;
+    float input;
+
+    if (!PyArg_ParseTuple(args, "if", &channel, &input)) {
+        PyErr_SetString(PyExc_ValueError, "Integer and float argument (channel, normalized input) required.");
+        return NULL;
+    }
+
+    if ((channel < 1) || (channel > 8)) {
+        PyErr_SetString(PyExc_ValueError, "Channel number has to be >= 1 and <= 8.");
+        return NULL;
+    }
+
+    if ((input < -0.1) || (input > 1.0)) {
+        PyErr_SetString(PyExc_ValueError, "Normalized input has to be >= -0.1 and <= 1.0.");
+        return NULL;
+    }
+
+    retval = rc_send_oneshot_pulse_normalized(channel, input);
+
+    return Py_BuildValue("i", retval);
+}
+
+static PyObject *rcSendOneshotPulseNormalizedAll(PyObject *self, PyObject *args) {
+    int retval;
+    float input;
+
+    if (!PyArg_ParseTuple(args, "f", &input)) {
+        PyErr_SetString(PyExc_ValueError, "Float argument (normalized input) required.");
+        return NULL;
+    }
+
+    if ((input < -0.1) || (input > 1.0)) {
+        PyErr_SetString(PyExc_ValueError, "Normalized input has to be >= -0.1 and <= 1.0.");
+        return NULL;
+    }
+
+    retval = rc_send_oneshot_pulse_normalized_all(channel, input);
 
     return Py_BuildValue("i", retval);
 }
