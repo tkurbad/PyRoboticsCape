@@ -50,7 +50,6 @@ static PyObject *rcSendESCPulseNormalizedAll(PyObject *self, PyObject *args);
 static PyObject *rcSendOneshotPulseNormalized(PyObject *self, PyObject *args);
 static PyObject *rcSendOneshotPulseNormalizedAll(PyObject *self, PyObject *args);
 
-// TODO: Implement rcGetPauseButton() and rcGetModeButton in Python
 static PyObject *rcGetButton(PyObject *self, PyObject *args);
 
 
