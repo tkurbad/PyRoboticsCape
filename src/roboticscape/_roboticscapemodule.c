@@ -274,7 +274,7 @@ static PyObject *rcSetEncoderPos(PyObject *self, PyObject *args) {
         return NULL;
     }
 
-    retval = rc_get_encoder_pos(channel, position);
+    retval = rc_set_encoder_pos(channel, position);
 
     return Py_BuildValue("l", retval);
 }
@@ -422,7 +422,7 @@ static PyObject *rcSendServoPulseNormalizedAll(PyObject *self, PyObject *args) {
         return NULL;
     }
 
-    retval = rc_send_servo_pulse_normalized_all(channel, input);
+    retval = rc_send_servo_pulse_normalized_all(input);
 
     return Py_BuildValue("i", retval);
 }
@@ -466,7 +466,7 @@ static PyObject *rcSendESCPulseNormalizedAll(PyObject *self, PyObject *args) {
         return NULL;
     }
 
-    retval = rc_send_esc_pulse_normalized_all(channel, input);
+    retval = rc_send_esc_pulse_normalized_all(input);
 
     return Py_BuildValue("i", retval);
 }
@@ -510,7 +510,7 @@ static PyObject *rcSendOneshotPulseNormalizedAll(PyObject *self, PyObject *args)
         return NULL;
     }
 
-    retval = rc_send_oneshot_pulse_normalized_all(channel, input);
+    retval = rc_send_oneshot_pulse_normalized_all(input);
 
     return Py_BuildValue("i", retval);
 }
@@ -524,7 +524,7 @@ static PyObject *rcGetButton(PyObject *self, PyObject *args) {
         return NULL;
     }
 
-    if ((button < 0) || (led > button)) {
+    if ((button < 0) || (button > 1)) {
         PyErr_SetString(PyExc_ValueError, "Button argument has to be pause (0) or mode (1).");
         return NULL;
     }
