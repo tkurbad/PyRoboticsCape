@@ -676,7 +676,7 @@ static PyObject *_rcInitalizeBarometer(PyObject *self, PyObject *args) {
 
     retval = rc_initialize_barometer(oversample, filter);
 
-    return retval;
+    return Py_BuildValue("i", retval);
 }
 
 static PyObject *rcPowerOffBarometer(PyObject *self, PyObject *args) {
