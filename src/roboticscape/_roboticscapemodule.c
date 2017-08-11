@@ -617,7 +617,7 @@ static PyObject *rcNanosSinceLastDSMPacket(PyObject *self, PyObject *args) {
 
     nanos = rc_nanos_since_last_dsm_packet();
 
-    return Py_BuildValue("l", nanos);
+    return PyLong_FromUnsignedLongLong(nanos);
 }
 
 static PyObject *rcGetDSMResolution(PyObject *self, PyObject *args) {
