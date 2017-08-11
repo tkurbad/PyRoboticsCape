@@ -929,7 +929,7 @@ static PyObject *rcReadI2CBytes(PyObject *self, PyObject *args) {
         return NULL;
     }
 
-    return Py_BuildValue("y", &data);
+    return Py_BuildValue("y", data);
 }
 
 static PyObject *rcReadI2CWord(PyObject *self, PyObject *args) {
