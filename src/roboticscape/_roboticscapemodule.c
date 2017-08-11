@@ -901,8 +901,6 @@ static PyObject *rcReadI2CBytes(PyObject *self, PyObject *args) {
     int address;
     int length;
     uint8_t *data;
-    uint8_t buf;
-    uint8_t i;
 
     if (!PyArg_ParseTuple(args, "iii", &bus, &address, &length)) {
         PyErr_SetString(PyExc_ValueError, "Three integer arguments (bus number, register address, data length) required.");
@@ -924,11 +922,7 @@ static PyObject *rcReadI2CBytes(PyObject *self, PyObject *args) {
         return NULL;
     }
 
-    for(i = 0; i < length; i++){
-		retval = rc_i2c_read_byte(bus, (uint8_t)address + i, &buf);
-        data[i] = buf;
-	}
-    //retval = rc_i2c_read_bytes(bus, (uint8_t)address, (uint8_t)length, data);
+    retval = rc_i2c_read_bytes(bus, (uint8_t)address, (uint8_t)length, data);
 
     printf("read %s\n", data);
 
@@ -937,7 +931,8 @@ static PyObject *rcReadI2CBytes(PyObject *self, PyObject *args) {
         return NULL;
     }
 
-    return Py_BuildValue("y", data);
+    //return Py_BuildValue("y", data);
+    return 0;
 }
 
 static PyObject *rcReadI2CWord(PyObject *self, PyObject *args) {
