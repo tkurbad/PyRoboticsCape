@@ -9,6 +9,10 @@
 #include <Python.h>
 #include <roboticscape.h>
 
+// Constants
+#define RED_LED 	66	// gpio2.2	P8.7
+#define GRN_LED 	67	// gpio2.3	P8.8
+
 
 // Method headers
 static PyObject *rcInitialize(PyObject *self, PyObject *args);

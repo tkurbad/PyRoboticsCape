@@ -66,7 +66,12 @@ static PyObject *rcGetLED(PyObject *self, PyObject *args) {
         return NULL;
     }
 
-    state = rc_get_led(led);
+    // Work around rc_get_led, since it fails reading from /sys/gpio
+    if (led == 0) {
+        state = rc_gpio_get_value_mmap(GRN_LED);
+    } else {
+		state = rc_gpio_get_value_mmap(RED_LED);
+    }
 
     return Py_BuildValue("i", state);
 }
