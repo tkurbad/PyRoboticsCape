@@ -922,7 +922,7 @@ static PyObject *rcReadI2CBytes(PyObject *self, PyObject *args) {
         return NULL;
     }
 
-    retval = rc_i2c_read_bytes(bus, (uint8_t)address, (uint8_t)length, &data[]);
+    retval = rc_i2c_read_bytes(bus, (uint8_t)address, (uint8_t)length, &data);
 
     if (retval < 0) {
         PyErr_SetString(PyExc_ValueError, "Reading several bytes from I²C device failed.");
