@@ -921,7 +921,7 @@ static PyObject *rcReadI2CWord(PyObject *self, PyObject *args) {
         return NULL;
     }
 
-    retval = rc_i2c_read_byte(bus, (uint8_t)address, &data);
+    retval = rc_i2c_read_word(bus, (uint8_t)address, &data);
 
     if (retval != 0) {
         PyErr_SetString(PyExc_ValueError, "Reading one word from I²C device failed.");
