@@ -885,14 +885,14 @@ static PyObject *rcReadI2CByte(PyObject *self, PyObject *args) {
         return NULL;
     }
 
-    retval = rc_i2c_read_byte(bus, (uint8_t)address, &data);
+    retval = rc_i2c_read_byte(bus, (uint8_t)address, data);
 
     if (retval != 0) {
         PyErr_SetString(PyExc_ValueError, "Reading one byte from I²C device failed.");
         return NULL;
     }
 
-    return Py_BuildValue("i", data);
+    return Py_BuildValue("i", &data);
 }
 
 static PyObject *rcReadI2CBytes(PyObject *self, PyObject *args) {
@@ -924,10 +924,10 @@ static PyObject *rcReadI2CBytes(PyObject *self, PyObject *args) {
 
     retval = rc_i2c_read_bytes(bus, (uint8_t)address, (uint8_t)length, data);
 
-    //if (retval != 0) {
-    //    PyErr_SetString(PyExc_ValueError, "Reading one byte from I²C device failed.");
-    //    return NULL;
-    //}
+    if (retval != 0) {
+        PyErr_SetString(PyExc_ValueError, "Reading one byte from I²C device failed.");
+        return NULL;
+    }
 
     return Py_BuildValue("y", &data);
 }
