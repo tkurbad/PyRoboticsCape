@@ -871,7 +871,7 @@ static PyObject *rcReadI2CByte(PyObject *self, PyObject *args) {
     uint8_t data;
 
     if (!PyArg_ParseTuple(args, "ii", &bus, &address)) {
-        PyErr_SetString(PyExc_ValueError, "Two integer arguments (bus number, device address) required.");
+        PyErr_SetString(PyExc_ValueError, "Two integer arguments (bus number, register address) required.");
         return NULL;
     }
 
@@ -880,8 +880,8 @@ static PyObject *rcReadI2CByte(PyObject *self, PyObject *args) {
         return NULL;
     }
 
-    if ((address < 0x03) || (address > 0x77)) {
-        PyErr_SetString(PyExc_ValueError, "Device address must be >= 0x03 and <= 0x77.");
+    if ((address < 0x00) || (address > 0xff)) {
+        PyErr_SetString(PyExc_ValueError, "Register address must be >= 0x00 and <= 0xff.");
         return NULL;
     }
 
@@ -907,7 +907,7 @@ static PyObject *rcReadI2CWord(PyObject *self, PyObject *args) {
     uint16_t data;
 
     if (!PyArg_ParseTuple(args, "ii", &bus, &address)) {
-        PyErr_SetString(PyExc_ValueError, "Two integer arguments (bus number, device address) required.");
+        PyErr_SetString(PyExc_ValueError, "Two integer arguments (bus number, register address) required.");
         return NULL;
     }
 
@@ -916,8 +916,8 @@ static PyObject *rcReadI2CWord(PyObject *self, PyObject *args) {
         return NULL;
     }
 
-    if ((address < 0x03) || (address > 0x77)) {
-        PyErr_SetString(PyExc_ValueError, "Device address must be >= 0x03 and <= 0x77.");
+    if ((address < 0x00) || (address > 0xff)) {
+        PyErr_SetString(PyExc_ValueError, "Register address must be >= 0x00 and <= 0xff.");
         return NULL;
     }
 
@@ -944,7 +944,7 @@ static PyObject *rcReadI2CBit(PyObject *self, PyObject *args) {
     uint8_t data;
 
     if (!PyArg_ParseTuple(args, "iii", &bus, &address, &bitnum)) {
-        PyErr_SetString(PyExc_ValueError, "Three integer arguments (bus number, device address, bit number) required.");
+        PyErr_SetString(PyExc_ValueError, "Three integer arguments (bus number, register address, bit number) required.");
         return NULL;
     }
 
@@ -953,8 +953,8 @@ static PyObject *rcReadI2CBit(PyObject *self, PyObject *args) {
         return NULL;
     }
 
-    if ((address < 0x03) || (address > 0x77)) {
-        PyErr_SetString(PyExc_ValueError, "Device address must be >= 0x03 and <= 0x77.");
+    if ((address < 0x00) || (address > 0xff)) {
+        PyErr_SetString(PyExc_ValueError, "Register address must be >= 0x00 and <= 0xff.");
         return NULL;
     }
 
