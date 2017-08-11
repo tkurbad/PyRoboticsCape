@@ -868,7 +868,7 @@ static PyObject *rcReadI2CByte(PyObject *self, PyObject *args) {
     int retval;
     int bus;
     int address;
-    uint8_t *data;
+    uint8_t data;
 
     if (!PyArg_ParseTuple(args, "ii", &bus, &address)) {
         PyErr_SetString(PyExc_ValueError, "Two integer arguments (bus number, register address) required.");
@@ -885,14 +885,14 @@ static PyObject *rcReadI2CByte(PyObject *self, PyObject *args) {
         return NULL;
     }
 
-    retval = rc_i2c_read_byte(bus, (uint8_t)address, data);
+    retval = rc_i2c_read_byte(bus, (uint8_t)address, &data);
 
     if (retval < 0) {
         PyErr_SetString(PyExc_ValueError, "Reading one byte from I²C device failed.");
         return NULL;
     }
 
-    return Py_BuildValue("i", &data);
+    return Py_BuildValue("i", data);
 }
 
 static PyObject *rcReadI2CBytes(PyObject *self, PyObject *args) {
@@ -936,7 +936,7 @@ static PyObject *rcReadI2CWord(PyObject *self, PyObject *args) {
     int retval;
     int bus;
     int address;
-    uint16_t *data;
+    uint16_t data;
 
     if (!PyArg_ParseTuple(args, "ii", &bus, &address)) {
         PyErr_SetString(PyExc_ValueError, "Two integer arguments (bus number, register address) required.");
@@ -953,14 +953,14 @@ static PyObject *rcReadI2CWord(PyObject *self, PyObject *args) {
         return NULL;
     }
 
-    retval = rc_i2c_read_word(bus, (uint8_t)address, data);
+    retval = rc_i2c_read_word(bus, (uint8_t)address, &data);
 
     if (retval < 0) {
         PyErr_SetString(PyExc_ValueError, "Reading one word from I²C device failed.");
         return NULL;
     }
 
-    return Py_BuildValue("i", &data);
+    return Py_BuildValue("i", data);
 }
 
 static PyObject *rcReadI2CWords(PyObject *self, PyObject *args) {
