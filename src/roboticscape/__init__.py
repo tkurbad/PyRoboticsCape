@@ -81,6 +81,17 @@ class CPUFreq(MyIntEnum):
     FREQ_1000MHZ    = 4
 
 
+class BBModel(MyIntEnum):
+    UNKNOWN_MODEL   = 0
+    BB_BLACK        = 1
+    BB_BLACK_RC     = 2
+    BB_BLACK_W      = 3
+    BB_BLACK_W_RC   = 4
+    BB_GREEN        = 5
+    BB_GREEN_W      = 6
+    BB_BLUE         = 7
+
+
 # High level methods
 def rcGetStateAsEnum():
     """ Get the current robot state as Python Enum. """
@@ -129,7 +140,7 @@ def rcInitializeBarometer(
         raise(ValueError('filter value %d not allowed' % bmpFilter))
     return _rcInitializeBarometer(bmpOversample, bmpFilter)
 
-def rcSetCPUFreqByEnum(frequency):
+def rcSetCPUFreqEnum(frequency):
     """ Set the CPU frequency of the BeagleBone using values provided by
         the CPUFreq Enum.
     """
@@ -143,6 +154,10 @@ def rcGetCPUFreqEnum():
         CPUFreq Enum.
     """
     return CPUFreq(rcGetCPUFreq())
+
+def rcGetBBModelEnum():
+    """ Get the BeagleBone model as member of the BBModel Enum. """
+    return BBModel(rcGetBBModel())
 
 
 # Event handlers

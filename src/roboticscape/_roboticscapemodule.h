@@ -83,6 +83,8 @@ static PyObject *rcSetBMPSeaLevelPressurePa(PyObject *self, PyObject *args);
 static PyObject *rcSetCPUFreq(PyObject *self, PyObject *args);
 static PyObject *rcGetCPUFreq(PyObject *self, PyObject *args);
 
+static PyObject *rcGetBBModel(PyObject *self, PyObject *args);
+
 
 // Method definitions
 static PyMethodDef RoboticsCapeMethods[] = {
@@ -191,6 +193,8 @@ static PyMethodDef RoboticsCapeMethods[] = {
         "Set CPU frequency."},
     {"rcGetCPUFreq", rcGetCPUFreq, METH_NOARGS,
         "Get CPU frequency setting."},
+    {"rcGetBBModel", rcGetBBModel, METH_NOARGS,
+        "Get the BeagleBone model."},
 
     {NULL, NULL, 0, NULL}        /* Sentinel */
 };

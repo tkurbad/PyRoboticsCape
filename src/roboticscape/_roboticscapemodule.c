@@ -766,6 +766,14 @@ static PyObject *rcGetCPUFreq(PyObject *self, PyObject *args) {
     return Py_BuildValue("i", frequency);
 }
 
+static PyObject *rcGetBBModel(PyObject *self, PyObject *args) {
+    rc_bb_model_t model;
+
+    model = rc_get_bb_model();
+
+    return Py_BuildValue("i", model);
+}
+
 
 PyMODINIT_FUNC
 PyInit__roboticscape(void)
