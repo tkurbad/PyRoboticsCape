@@ -652,6 +652,87 @@ static PyObject *rcCalibrateDSMRoutine(PyObject *self, PyObject *args) {
     return Py_BuildValue("i", retval);
 }
 
+// TODO: IMU methods
+
+static PyObject *_rcInitalizeBarometer(PyObject *self, PyObject *args) {
+    int retval;
+    int oversample;
+    int filter;
+
+    if (!PyArg_ParseTuple(args, "ii", &oversample, &filter)) {
+        PyErr_SetString(PyExc_ValueError, "Two integer arguments (oversample setting, filter setting) required.");
+        return NULL;
+    }
+
+    if ((oversample < 4) || (oversample > 20) || (oversample % 4 != 0)) {
+        PyErr_SetString(PyExc_ValueError, "Allowed oversample values: 4, 8, 12, 16, or 20.");
+        return NULL;
+    }
+
+    if ((filter < 0) || (filter > 16) || (filter % 4 != 0)) {
+        PyErr_SetString(PyExc_ValueError, "Allowed filter values: 0, 4, 8, 12, or 16.");
+        return NULL;
+    }
+
+    retval = rc_initialize_barometer(oversample, filter);
+
+    return retval;
+}
+
+static PyObject *rcPowerOffBarometer(PyObject *self, PyObject *args) {
+    int retval;
+
+    retval = rc_power_off_barometer();
+
+    return Py_BuildValue("i", retval);
+}
+
+static PyObject *rcReadBarometer(PyObject *self, PyObject *args) {
+    int retval;
+
+    retval = rc_read_barometer();
+
+    return Py_BuildValue("i", retval);
+}
+
+static PyObject *rcGetBMPTemperature(PyObject *self, PyObject *args) {
+    float celsius;
+
+    celsius = rc_bmp_get_temperature();
+
+    return Py_BuildValue("f", celsius);
+}
+
+static PyObject *rcGetBMPPressurePa(PyObject *self, PyObject *args) {
+    float pa;
+
+    pa = rc_bmp_get_pressure_pa();
+
+    return Py_BuildValue("f", pa);
+}
+
+static PyObject *rcGetBMPAltitudeM(PyObject *self, PyObject *args) {
+    float meters;
+
+    meters = rc_bmp_get_altitude_m();
+
+    return Py_BuildValue("f", meters);
+}
+
+static PyObject *rcSetBMPSeaLevelPressurePa(PyObject *self, PyObject *args) {
+    int retval;
+    float pa;
+
+    if (!PyArg_ParseTuple(args, "f", &pa)) {
+        PyErr_SetString(PyExc_ValueError, "Float argument (pressure in pascal) required.");
+        return NULL;
+    }
+
+    retval = rc_set_sea_level_pressure_pa(pa);
+
+    return Py_BuildValue("i", retval);
+}
+
 
 PyMODINIT_FUNC
 PyInit__roboticscape(void)

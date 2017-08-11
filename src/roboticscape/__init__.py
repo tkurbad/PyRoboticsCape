@@ -8,8 +8,18 @@ import atexit
 from _roboticscape import *
 from enum import IntEnum
 
+# Meta definitions
+class MyIntEnum(IntEnum):
+    """ Add class method has_value to IntEnum to check whether a certain
+        value exists in an enum.
+    """
+    @classmethod
+    def has_value(cls, value):
+        return (any(value == item.value for item in cls))
+
+
 # Type definitions
-class State(IntEnum):
+class State(MyIntEnum):
     """ Enumeration of possible states from rcGetState(), and for
         rcSetState()
     """
@@ -18,25 +28,47 @@ class State(IntEnum):
     PAUSED          = 2
     EXITING         = 3
 
-class PowerState(IntEnum):
+
+class PowerState(MyIntEnum):
     """ Enumeration of possible power states. """
     OFF             = 0
     ON              = 1
 
-class LED(IntEnum):
+
+class LED(MyIntEnum):
     """ Enumeration of available LEDs. """
     GREEN           = 0
     RED             = 1
 
-class Button(IntEnum):
+
+class Button(MyIntEnum):
     """ Enumeration of available buttons. """
     PAUSE           = 0
     MODE            = 1
 
-class ButtonState(IntEnum):
+
+class ButtonState(MyIntEnum):
     """ Enumeration of possible button states. """
     RELEASED        = 0
     PRESSED         = 1
+
+
+class BMPOversample(IntEnum):
+    """ Enumeration of BMP280 oversample settings. """
+	BMP_OVERSAMPLE_1    = 4     # update rate 182 HZ
+	BMP_OVERSAMPLE_2    = 8     # update rate 133 HZ
+	BMP_OVERSAMPLE_4    = 12    # update rate 87 HZ
+	BMP_OVERSAMPLE_8    = 16    # update rate 51 HZ
+	BMP_OVERSAMPLE_16   = 20    # update rate 28 HZ
+
+
+class BMPFilter(IntEnum):
+    """ Enumeration of BMP280 filter settings. """
+	BMP_FILTER_OFF      = 0
+	BMP_FILTER_2        = 4
+	BMP_FILTER_4        = 8
+	BMP_FILTER_8        = 12
+	BMP_FILTER_16       = 16
 
 
 # High level methods
@@ -76,6 +108,16 @@ def rcGetModeButton():
 def rcGetPauseButton():
     """ Get state of pause button as Enum. """
     return ButtonState(rcGetButton(Button.PAUSE.value))
+
+def rcInitializeBarometer(
+    bmpOversample = BMPOversample.BMP_OVERSAMPLE_1.value,
+    bmpFilter = BMPFilter.BMP_FILTER_OFF.value):
+    """ Initialize and power on barometer. """
+    if not BMPOversample.has_value(bmpOversample):
+        raise(ValueError('oversample value %d not allowed' % bmpOversample))
+    if not BMPFilter.has_value(bmpFilter):
+        raise(ValueError('filter value %d not allowed' % bmpFilter))
+    return _rcInitializeBarometer(bmpOversample, bmpFilter)
 
 
 # Event handlers

@@ -68,6 +68,16 @@ static PyObject *rcNumDSMChannels(PyObject *self, PyObject *args);
 static PyObject *rcBindDSM(PyObject *self, PyObject *args);
 static PyObject *rcCalibrateDSMRoutine(PyObject *self, PyObject *args);
 
+// TODO: IMU methods
+
+static PyObject *_rcInitalizeBarometer(PyObject *self, PyObject *args);
+static PyObject *rcPowerOffBarometer(PyObject *self, PyObject *args);
+static PyObject *rcReadBarometer(PyObject *self, PyObject *args);
+static PyObject *rcGetBMPTemperature(PyObject *self, PyObject *args);
+static PyObject *rcGetBMPPressurePa(PyObject *self, PyObject *args);
+static PyObject *rcGetBMPAltitudeM(PyObject *self, PyObject *args);
+static PyObject *rcSetBMPSeaLevelPressurePa(PyObject *self, PyObject *args);
+
 
 // Method definitions
 static PyMethodDef RoboticsCapeMethods[] = {
@@ -157,6 +167,21 @@ static PyMethodDef RoboticsCapeMethods[] = {
         "Put DSM receiver in bind mode."},
     {"rcCalibrateDSMRoutine", rcCalibrateDSMRoutine, METH_NOARGS,
         "Start DSM calibration routine."},
+
+    {"_rcInitalizeBarometer", _rcInitalizeBarometer, METH_VARARGS,
+        "Power on and initialize barometer with the given oversample and filter settings."},
+    {"rcPowerOffBarometer", rcPowerOffBarometer, METH_NOARGS,
+        "Power off barometer."},
+    {"rcReadBarometer", rcReadBarometer, METH_NOARGS,
+        "Trigger reading new barometer values to be retrieved by the rcGetBMP* methods."},
+    {"rcGetBMPTemperature", rcGetBMPTemperature, METH_NOARGS,
+        "Get temperature transmitted during last rcReadBarometer call."},
+    {"rcGetBMPPressurePa", rcGetBMPPressurePa, METH_NOARGS,
+        "Get pressure in pascal transmitted during last rcReadBarometer call."},
+    {"rcGetBMPAltitudeM", rcGetBMPAltitudeM, METH_NOARGS,
+        "Get altitude in meters transmitted during last rcReadBarometer call."},
+    {"rcSetBMPSeaLevelPressurePa", rcSetBMPSeaLevelPressurePa, METH_VARARGS,
+        "Set current sea level pressure to correct altitude reading."},
 
     {NULL, NULL, 0, NULL}        /* Sentinel */
 };
