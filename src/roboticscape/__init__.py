@@ -7,7 +7,7 @@ import atexit
 from enum import IntEnum
 
 from _roboticscape import *
-
+from _roboticscape import _rcInitializeBarometer
 
 # Meta definitions
 class MyIntEnum(IntEnum):
