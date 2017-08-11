@@ -728,6 +728,11 @@ static PyObject *rcSetBMPSeaLevelPressurePa(PyObject *self, PyObject *args) {
         return NULL;
     }
 
+    if ((pa < 80000.0) || (pa > 120000.0)) {
+        PyErr_SetString(PyExc_ValueError, "Pressure in pascal has to be between 80,000 and 120,000.");
+        return NULL;
+    }
+
     retval = rc_set_sea_level_pressure_pa(pa);
 
     return Py_BuildValue("i", retval);
