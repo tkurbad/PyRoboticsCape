@@ -25,6 +25,8 @@ static PyObject *rcGetLED(PyObject *self, PyObject *args);
 static PyObject *rcSetLED(PyObject *self, PyObject *args);
 static PyObject *rcBlinkLED(PyObject *self, PyObject *args);
 
+static PyObject *rcGetButton(PyObject *self, PyObject *args);
+
 static PyObject *rcEnableMotors(PyObject *self, PyObject *args);
 static PyObject *rcDisableMotors(PyObject *self, PyObject *args);
 static PyObject *rcSetMotor(PyObject *self, PyObject *args);
@@ -54,7 +56,17 @@ static PyObject *rcSendESCPulseNormalizedAll(PyObject *self, PyObject *args);
 static PyObject *rcSendOneshotPulseNormalized(PyObject *self, PyObject *args);
 static PyObject *rcSendOneshotPulseNormalizedAll(PyObject *self, PyObject *args);
 
-static PyObject *rcGetButton(PyObject *self, PyObject *args);
+static PyObject *rcInitializeDSM(PyObject *self, PyObject *args);
+static PyObject *rcStopDSMService(PyObject *self, PyObject *args);
+static PyObject *rcGetDSMChRaw(PyObject *self, PyObject *args);
+static PyObject *rcGetDSMChNormalized(PyObject *self, PyObject *args);
+static PyObject *rcIsDSMNewData(PyObject *self, PyObject *args);
+static PyObject *rcIsDSMActive(PyObject *self, PyObject *args);
+static PyObject *rcNanosSinceLastDSMPacket(PyObject *self, PyObject *args);
+static PyObject *rcGetDSMResolution(PyObject *self, PyObject *args);
+static PyObject *rcNumDSMChannels(PyObject *self, PyObject *args);
+static PyObject *rcBindDSM(PyObject *self, PyObject *args);
+static PyObject *rcCalibrateDSMRoutine(PyObject *self, PyObject *args);
 
 
 // Method definitions
@@ -73,6 +85,8 @@ static PyMethodDef RoboticsCapeMethods[] = {
         "Turn on/off green or red LED (0 = off, 1 = on)."},
     {"rcBlinkLED", rcBlinkLED, METH_VARARGS,
         "Blink green or red LED with a given frequency (Hz) for a finite period (s)."},
+    {"rcGetButton", rcGetButton, METH_VARARGS,
+        "Get state of pause (0) or mode (1) button (0 = released, 1 = pressed)."},
     {"rcEnableMotors", rcEnableMotors, METH_NOARGS,
         "Enable motor controller."},
     {"rcDisableMotors", rcDisableMotors, METH_NOARGS,
@@ -121,8 +135,28 @@ static PyMethodDef RoboticsCapeMethods[] = {
         "Send a normalized oneshot pulse (range -0.1 ~ 1.0) to the given ESC channel."},
     {"rcSendOneshotPulseNormalizedAll", rcSendOneshotPulseNormalizedAll, METH_VARARGS,
         "Send a normalized oneshot pulse (range -0.1 ~ 1.0) to all ESC channels."},
-    {"rcGetButton", rcGetButton, METH_VARARGS,
-        "Get state of pause (0) or mode (1) button (0 = released, 1 = pressed)."},
+    {"rcInitializeDSM", rcInitializeDSM, METH_NOARGS,
+        "Start the DSM reception background service."},
+    {"rcStopDSMService", rcStopDSMService, METH_NOARGS,
+        "Stop the DSM reception background service."},
+    {"rcGetDSMChRaw", rcGetDSMChRaw, METH_VARARGS,
+        "Get the pulse width send by the transmitter to the given channel."},
+    {"rcGetDSMChNormalized", rcGetDSMChNormalized, METH_VARARGS,
+        "Get normalized values (range -1.0 ~ 1.0) of the given channel according to (mandatory) calibration."},
+    {"rcIsDSMNewData", rcIsDSMNewData, METH_NOARGS,
+        "Check whether new DSM data is available (1 - true | 0 - false)."},
+    {"rcIsDSMActive", rcIsDSMActive, METH_NOARGS,
+        "Check DSM packet health (1 - no errors | 0 - timeouts and/or packet errors)."},
+    {"rcNanosSinceLastDSMPacket", rcNanosSinceLastDSMPacket, METH_NOARGS,
+        "Get nanoseconds since last DSM packet has been received."},
+    {"rcGetDSMResolution", rcGetDSMResolution, METH_NOARGS,
+        "Get DSM resolution (returns 10 or 11 [bits], 0 if unknown)."},
+    {"rcNumDSMChannels", rcNumDSMChannels, METH_NOARGS,
+        "Get number of channels currently being sent (0 if no packet received yet)."},
+    {"rcBindDSM", rcBindDSM, METH_NOARGS,
+        "Put DSM receiver in bind mode."},
+    {"rcCalibrateDSMRoutine", rcCalibrateDSMRoutine, METH_NOARGS,
+        "Start DSM calibration routine."},
 
     {NULL, NULL, 0, NULL}        /* Sentinel */
 };

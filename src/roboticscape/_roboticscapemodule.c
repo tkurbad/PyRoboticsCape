@@ -67,10 +67,11 @@ static PyObject *rcGetLED(PyObject *self, PyObject *args) {
     }
 
     // Work around rc_get_led, since it fails reading from /sys/gpio
-    rc_gpio_export(GRN_LED);
-    rc_gpio_export(RED_LED);
-
-    state = rc_get_led(led);
+    if (led == 0) {
+        state = rc_gpio_get_value_mmap(GRN_LED);
+    } else {
+		state = rc_gpio_get_value_mmap(RED_LED);
+    }
 
     return Py_BuildValue("i", state);
 }
@@ -128,6 +129,28 @@ static PyObject *rcBlinkLED(PyObject *self, PyObject *args) {
     retval = rc_blink_led(led, hz, period);
 
     return Py_BuildValue("i", retval);
+}
+
+static PyObject *rcGetButton(PyObject *self, PyObject *args) {
+    int state;
+    int button;
+
+    if (!PyArg_ParseTuple(args, "i", &button)) {
+        PyErr_SetString(PyExc_ValueError, "Integer argument (pause or mode button) required.");
+        return NULL;
+    }
+
+    if ((button < 0) || (button > 1)) {
+        PyErr_SetString(PyExc_ValueError, "Button argument has to be pause (0) or mode (1).");
+        return NULL;
+    }
+
+    if (button == 0)
+        state = rc_get_pause_button();
+    else
+        state = rc_get_mode_button();
+
+    return Py_BuildValue("i", state);
 }
 
 static PyObject *rcEnableMotors(PyObject *self, PyObject *args) {
@@ -519,26 +542,114 @@ static PyObject *rcSendOneshotPulseNormalizedAll(PyObject *self, PyObject *args)
     return Py_BuildValue("i", retval);
 }
 
-static PyObject *rcGetButton(PyObject *self, PyObject *args) {
-    int state;
-    int button;
+static PyObject *rcInitializeDSM(PyObject *self, PyObject *args) {
+    int retval;
 
-    if (!PyArg_ParseTuple(args, "i", &button)) {
-        PyErr_SetString(PyExc_ValueError, "Integer argument (pause or mode button) required.");
+    retval = rc_initialize_dsm();
+
+    return Py_BuildValue("i", retval);
+}
+
+static PyObject *rcStopDSMService(PyObject *self, PyObject *args) {
+    int retval;
+
+    retval = rc_stop_dsm_service();
+
+    return Py_BuildValue("i", retval);
+}
+
+static PyObject *rcGetDSMChRaw(PyObject *self, PyObject *args) {
+    int rawvalue;
+    int channel;
+
+    if (!PyArg_ParseTuple(args, "i", &channel)) {
+        PyErr_SetString(PyExc_ValueError, "Integer argument (DSM channel number) required.");
         return NULL;
     }
 
-    if ((button < 0) || (button > 1)) {
-        PyErr_SetString(PyExc_ValueError, "Button argument has to be pause (0) or mode (1).");
+    if ((channel < 1) || (channel > 9)) {
+        PyErr_SetString(PyExc_ValueError, "Channel number has to be >= 1 and <= 9.");
         return NULL;
     }
 
-    if (button == 0)
-        state = rc_get_pause_button();
-    else
-        state = rc_get_mode_button();
+    rawvalue = rc_get_dsm_ch_raw(channel);
 
-    return Py_BuildValue("i", state);
+    return Py_BuildValue("i", rawvalue);
+}
+
+static PyObject *rcGetDSMChNormalized(PyObject *self, PyObject *args) {
+    float normalized;
+    int channel;
+
+    if (!PyArg_ParseTuple(args, "i", &channel)) {
+        PyErr_SetString(PyExc_ValueError, "Integer argument (DSM channel number) required.");
+        return NULL;
+    }
+
+    if ((channel < 1) || (channel > 9)) {
+        PyErr_SetString(PyExc_ValueError, "Channel number has to be >= 1 and <= 9.");
+        return NULL;
+    }
+
+    normalized = rc_get_dsm_ch_normalized(channel);
+
+    return Py_BuildValue("f", normalized);
+}
+
+static PyObject *rcIsDSMNewData(PyObject *self, PyObject *args) {
+    int retval;
+
+    retval = rc_is_new_dsm_data();
+
+    return Py_BuildValue("i", retval);
+}
+
+static PyObject *rcIsDSMActive(PyObject *self, PyObject *args) {
+    int retval;
+
+    retval = rc_is_dsm_active();
+
+    return Py_BuildValue("i", retval);
+}
+
+static PyObject *rcNanosSinceLastDSMPacket(PyObject *self, PyObject *args) {
+    long nanos;
+
+    nanos = rc_nanos_since_last_dsm_packet();
+
+    return Py_BuildValue("l", nanos);
+}
+
+static PyObject *rcGetDSMResolution(PyObject *self, PyObject *args) {
+    int resolution;
+
+    resolution = rc_get_dsm_resolution();
+
+    return Py_BuildValue("i", resolution);
+}
+
+static PyObject *rcNumDSMChannels(PyObject *self, PyObject *args) {
+    int num_channels;
+
+    num_channels = rc_num_dsm_channels();
+
+    return Py_BuildValue("i", num_channels);
+}
+
+static PyObject *rcBindDSM(PyObject *self, PyObject *args) {
+    int retval;
+
+    retval = rc_bind_dsm();
+
+    return Py_BuildValue("i", retval);
+}
+
+static PyObject *rcCalibrateDSMRoutine(PyObject *self, PyObject *args) {
+    int retval;
+
+    retval = rc_calibrate_dsm_routine();
+
+    return Py_BuildValue("i", retval);
 }
 
 
