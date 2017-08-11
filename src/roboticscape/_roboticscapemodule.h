@@ -78,7 +78,26 @@ static PyObject *rcGetBMPPressurePa(PyObject *self, PyObject *args);
 static PyObject *rcGetBMPAltitudeM(PyObject *self, PyObject *args);
 static PyObject *rcSetBMPSeaLevelPressurePa(PyObject *self, PyObject *args);
 
-// TODO: I2C, SPI, UART methods
+static PyObject *rcInitializeI2C(PyObject *self, PyObject *args);
+static PyObject *rcCloseI2C(PyObject *self, PyObject *args);
+static PyObject *rcSetI2CDeviceAddress(PyObject *self, PyObject *args);
+static PyObject *rcClaimI2CBus(PyObject *self, PyObject *args);
+static PyObject *rcReleaseI2CBus(PyObject *self, PyObject *args);
+static PyObject *rcGetI2CBusInUse(PyObject *self, PyObject *args);
+static PyObject *rcReadI2CByte(PyObject *self, PyObject *args);
+static PyObject *rcReadI2CBytes(PyObject *self, PyObject *args);
+static PyObject *rcReadI2CWord(PyObject *self, PyObject *args);
+static PyObject *rcReadI2CWords(PyObject *self, PyObject *args);
+static PyObject *rcReadI2CBit(PyObject *self, PyObject *args);
+static PyObject *rcWriteI2CByte(PyObject *self, PyObject *args);
+static PyObject *rcWriteI2CBytes(PyObject *self, PyObject *args);
+static PyObject *rcWriteI2CWord(PyObject *self, PyObject *args);
+static PyObject *rcWriteI2CWords(PyObject *self, PyObject *args);
+static PyObject *rcWriteI2CBit(PyObject *self, PyObject *args);
+static PyObject *rcSendI2CByte(PyObject *self, PyObject *args);
+static PyObject *rcSendI2CBytes(PyObject *self, PyObject *args);
+
+// TODO: SPI, UART methods
 
 static PyObject *rcSetCPUFreq(PyObject *self, PyObject *args);
 static PyObject *rcGetCPUFreq(PyObject *self, PyObject *args);
@@ -189,6 +208,43 @@ static PyMethodDef RoboticsCapeMethods[] = {
         "Get altitude in meters transmitted during last rcReadBarometer call."},
     {"rcSetBMPSeaLevelPressurePa", rcSetBMPSeaLevelPressurePa, METH_VARARGS,
         "Set current sea level pressure to correct altitude reading."},
+    {"rcInitializeI2C", rcInitializeI2C, METH_VARARGS,
+        "Initialize I²C bus with given bus number and device address."},
+    {"rcCloseI2C", rcCloseI2C, METH_VARARGS,
+        "Close I²C bus with given bus number and release file descriptors."},
+    {"rcSetI2CDeviceAddress", rcSetI2CDeviceAddress, METH_VARARGS,
+        "Switch to another device address on an initialized I²C bus."},
+    {"rcClaimI2CBus", rcClaimI2CBus, METH_VARARGS,
+        "Convenience method to mark I²C bus as being in use."},
+    {"rcReleaseI2CBus", rcReleaseI2CBus, METH_VARARGS,
+        "Convenience method to mark I²C bus as not being in use."},
+    {"rcGetI2CBusInUse", rcGetI2CBusInUse, METH_VARARGS,
+        "Convenience method to check whether I²C bus is in use."},
+    {"rcReadI2CByte", rcReadI2CByte, METH_VARARGS,
+        "Read one byte from a particular I²C device and register."},
+    {"rcReadI2CBytes", rcReadI2CBytes, METH_VARARGS,
+        "Read a given number of bytes from a particular I²C device and register."},
+    {"rcReadI2CWord", rcReadI2CWord, METH_VARARGS,
+        "Read one word from a particular I²C device and register."},
+    {"rcReadI2CWords", rcReadI2CWords, METH_VARARGS,
+        "Read a given number of words from a particular I²C device and register."},
+    {"rcReadI2CBit", rcReadI2CBit, METH_VARARGS,
+        "Read one bit from a particular I²C device and register."},
+    {"rcWriteI2CByte", rcWriteI2CByte, METH_VARARGS,
+        "Write one byte to a particular I²C device and register."},
+    {"rcWriteI2CBytes", rcWriteI2CBytes, METH_VARARGS,
+        "Write a given number of bytes to a particular I²C device and register."},
+    {"rcWriteI2CWord", rcWriteI2CWord, METH_VARARGS,
+        "Write one word to a particular I²C device and register."},
+    {"rcWriteI2CWords", rcWriteI2CWords, METH_VARARGS,
+        "Write a given number of words to a particular I²C device and register."},
+    {"rcWriteI2CBit", rcWriteI2CBit, METH_VARARGS,
+        "Write one bit to a particular I²C device and register."},
+    {"rcSendI2CByte", rcWriteI2CByte, METH_VARARGS,
+        "Write one byte to the I²C bus (= I²C broadcast)."},
+    {"rcSendI2CBytes", rcWriteI2CBytes, METH_VARARGS,
+        "Write a given number of bytes to the I²C bus (= I²C broadcast)."},
+
     {"rcSetCPUFreq", rcSetCPUFreq, METH_VARARGS,
         "Set CPU frequency."},
     {"rcGetCPUFreq", rcGetCPUFreq, METH_NOARGS,

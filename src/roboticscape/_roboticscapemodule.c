@@ -738,6 +738,307 @@ static PyObject *rcSetBMPSeaLevelPressurePa(PyObject *self, PyObject *args) {
     return Py_BuildValue("i", retval);
 }
 
+static PyObject *rcInitializeI2C(PyObject *self, PyObject *args) {
+    int retval;
+    int bus;
+    int address;
+
+    if (!PyArg_ParseTuple(args, "ii", &bus, &address)) {
+        PyErr_SetString(PyExc_ValueError, "Two integer arguments (bus number, device address) required.");
+        return NULL;
+    }
+
+    if ((bus < 1) || (bus > 2)) {
+        PyErr_SetString(PyExc_ValueError, "Bus number must be 1 or 2.");
+        return NULL;
+    }
+
+    if ((address < 0x03) || (address > 0x77)) {
+        PyErr_SetString(PyExc_ValueError, "Device address must be >= 0x03 and <= 0x77.");
+        return NULL;
+    }
+
+    retval = rc_i2c_init(bus, (uint8_t)address);
+
+    return Py_BuildValue("i", retval);
+}
+
+static PyObject *rcCloseI2C(PyObject *self, PyObject *args) {
+    int retval;
+    int bus;
+
+    if (!PyArg_ParseTuple(args, "i", &bus)) {
+        PyErr_SetString(PyExc_ValueError, "Integer argument (bus number) required.");
+        return NULL;
+    }
+
+    if ((bus < 1) || (bus > 2)) {
+        PyErr_SetString(PyExc_ValueError, "Bus number must be 1 or 2.");
+        return NULL;
+    }
+
+    retval = rc_i2c_close(bus);
+
+    return Py_BuildValue("i", retval);
+}
+
+static PyObject *rcSetI2CDeviceAddress(PyObject *self, PyObject *args) {
+    int retval;
+    int bus;
+    int address;
+
+    if (!PyArg_ParseTuple(args, "ii", &bus, &address)) {
+        PyErr_SetString(PyExc_ValueError, "Two integer arguments (bus number, device address) required.");
+        return NULL;
+    }
+
+    if ((bus < 1) || (bus > 2)) {
+        PyErr_SetString(PyExc_ValueError, "Bus number must be 1 or 2.");
+        return NULL;
+    }
+
+    if ((address < 0x03) || (address > 0x77)) {
+        PyErr_SetString(PyExc_ValueError, "Device address must be >= 0x03 and <= 0x77.");
+        return NULL;
+    }
+
+    retval = rc_i2c_set_device_address(bus, (uint8_t)address);
+
+    return Py_BuildValue("i", retval);
+}
+
+static PyObject *rcClaimI2CBus(PyObject *self, PyObject *args) {
+    int retval;
+    int bus;
+
+    if (!PyArg_ParseTuple(args, "i", &bus)) {
+        PyErr_SetString(PyExc_ValueError, "Integer argument (bus number) required.");
+        return NULL;
+    }
+
+    if ((bus < 1) || (bus > 2)) {
+        PyErr_SetString(PyExc_ValueError, "Bus number must be 1 or 2.");
+        return NULL;
+    }
+
+    retval = rc_i2c_claim_bus(bus);
+
+    return Py_BuildValue("i", retval);
+}
+
+static PyObject *rcReleaseI2CBus(PyObject *self, PyObject *args) {
+    int retval;
+    int bus;
+
+    if (!PyArg_ParseTuple(args, "i", &bus)) {
+        PyErr_SetString(PyExc_ValueError, "Integer argument (bus number) required.");
+        return NULL;
+    }
+
+    if ((bus < 1) || (bus > 2)) {
+        PyErr_SetString(PyExc_ValueError, "Bus number must be 1 or 2.");
+        return NULL;
+    }
+
+    retval = rc_i2c_release_bus(bus);
+
+    return Py_BuildValue("i", retval);
+}
+
+static PyObject *rcGetI2CBusInUse(PyObject *self, PyObject *args) {
+    int state;
+    int bus;
+
+    if (!PyArg_ParseTuple(args, "i", &bus)) {
+        PyErr_SetString(PyExc_ValueError, "Integer argument (bus number) required.");
+        return NULL;
+    }
+
+    if ((bus < 1) || (bus > 2)) {
+        PyErr_SetString(PyExc_ValueError, "Bus number must be 1 or 2.");
+        return NULL;
+    }
+
+    state = rc_i2c_get_in_use_state(bus);
+
+    return Py_BuildValue("i", state);
+}
+
+static PyObject *rcReadI2CByte(PyObject *self, PyObject *args) {
+    int retval;
+    int bus;
+    int address;
+    uint8_t data;
+
+    if (!PyArg_ParseTuple(args, "ii", &bus, &address)) {
+        PyErr_SetString(PyExc_ValueError, "Two integer arguments (bus number, device address) required.");
+        return NULL;
+    }
+
+    if ((bus < 1) || (bus > 2)) {
+        PyErr_SetString(PyExc_ValueError, "Bus number must be 1 or 2.");
+        return NULL;
+    }
+
+    if ((address < 0x03) || (address > 0x77)) {
+        PyErr_SetString(PyExc_ValueError, "Device address must be >= 0x03 and <= 0x77.");
+        return NULL;
+    }
+
+    retval = rc_i2c_read_byte(bus, (uint8_t)address, &data);
+
+    if (retval != 0) {
+        PyErr_SetString(PyExc_ValueError, "Reading one byte from I²C device failed.");
+        return NULL;
+    }
+
+    return Py_BuildValue("i", data);
+}
+
+static PyObject *rcReadI2CBytes(PyObject *self, PyObject *args) {
+// int rc_i2c_read_bytes(int bus, uint8_t regAddr, uint8_t length,  uint8_t *data);
+    
+}
+
+static PyObject *rcReadI2CWord(PyObject *self, PyObject *args) {
+    int retval;
+    int bus;
+    int address;
+    uint16_t data;
+
+    if (!PyArg_ParseTuple(args, "ii", &bus, &address)) {
+        PyErr_SetString(PyExc_ValueError, "Two integer arguments (bus number, device address) required.");
+        return NULL;
+    }
+
+    if ((bus < 1) || (bus > 2)) {
+        PyErr_SetString(PyExc_ValueError, "Bus number must be 1 or 2.");
+        return NULL;
+    }
+
+    if ((address < 0x03) || (address > 0x77)) {
+        PyErr_SetString(PyExc_ValueError, "Device address must be >= 0x03 and <= 0x77.");
+        return NULL;
+    }
+
+    retval = rc_i2c_read_byte(bus, (uint8_t)address, &data);
+
+    if (retval != 0) {
+        PyErr_SetString(PyExc_ValueError, "Reading one word from I²C device failed.");
+        return NULL;
+    }
+
+    return Py_BuildValue("i", data);
+}
+
+static PyObject *rcReadI2CWords(PyObject *self, PyObject *args) {
+//int rc_i2c_read_words(int bus, uint8_t regAddr, uint8_t length, uint16_t *data);
+    
+}
+
+static PyObject *rcReadI2CBit(PyObject *self, PyObject *args) {
+    int retval;
+    int bus;
+    int address;
+    int bitnum;
+    uint8_t data;
+
+    if (!PyArg_ParseTuple(args, "iii", &bus, &address, &bitnum)) {
+        PyErr_SetString(PyExc_ValueError, "Three integer arguments (bus number, device address, bit number) required.");
+        return NULL;
+    }
+
+    if ((bus < 1) || (bus > 2)) {
+        PyErr_SetString(PyExc_ValueError, "Bus number must be 1 or 2.");
+        return NULL;
+    }
+
+    if ((address < 0x03) || (address > 0x77)) {
+        PyErr_SetString(PyExc_ValueError, "Device address must be >= 0x03 and <= 0x77.");
+        return NULL;
+    }
+
+    if ((bitnum < 0) || (bitnum > 15)) {
+        PyErr_SetString(PyExc_ValueError, "Bit number must be >= 0 and <= 15.");
+        return NULL;
+    }
+
+    retval = rc_i2c_read_bit(bus, (uint8_t)address, (uint8_t)bitnum, &data);
+
+    if (retval != 0) {
+        PyErr_SetString(PyExc_ValueError, "Reading one bit from I²C device failed.");
+        return NULL;
+    }
+
+    return Py_BuildValue("i", data);
+}
+
+static PyObject *rcWriteI2CByte(PyObject *self, PyObject *args) {
+//int rc_i2c_write_byte(int bus, uint8_t regAddr, uint8_t data);
+    
+}
+
+static PyObject *rcWriteI2CBytes(PyObject *self, PyObject *args) {
+//int rc_i2c_write_bytes(int bus, uint8_t regAddr, uint8_t length, uint8_t* data);
+    
+}
+
+static PyObject *rcWriteI2CWord(PyObject *self, PyObject *args) {
+//int rc_i2c_write_word(int bus, uint8_t regAddr, uint16_t data);
+    
+}
+
+static PyObject *rcWriteI2CWords(PyObject *self, PyObject *args) {
+//int rc_i2c_write_words(int bus, uint8_t regAddr, uint8_t length, uint16_t* data);
+    
+}
+
+static PyObject *rcWriteI2CBit(PyObject *self, PyObject *args) {
+//int rc_i2c_write_bit(int bus, uint8_t regAddr, uint8_t bitNum, uint8_t data);
+    
+}
+
+static PyObject *rcSendI2CByte(PyObject *self, PyObject *args) {
+    int retval;
+    int bus;
+    uint8_t data;
+
+    if (!PyArg_ParseTuple(args, "iB", &bus, &data)) {
+        PyErr_SetString(PyExc_ValueError, "Two integer arguments (bus number, data byte) required.");
+        return NULL;
+    }
+
+    if ((bus < 1) || (bus > 2)) {
+        PyErr_SetString(PyExc_ValueError, "Bus number must be 1 or 2.");
+        return NULL;
+    }
+
+    retval = rc_i2c_send_byte(bus, data);
+
+    return Py_BuildValue("i", retval);
+}
+
+static PyObject *rcSendI2CBytes(PyObject *self, PyObject *args) {
+    int retval;
+    int bus;
+    uint8_t length;
+    uint8_t *data;
+
+    if (!PyArg_ParseTuple(args, "iBy*", &bus, &length, &data)) {
+        PyErr_SetString(PyExc_ValueError, "Three integer arguments (bus number, data length, data bytes) required.");
+        return NULL;
+    }
+
+    if ((bus < 1) || (bus > 2)) {
+        PyErr_SetString(PyExc_ValueError, "Bus number must be 1 or 2.");
+        return NULL;
+    }
+
+    retval = rc_i2c_send_bytes(bus, length, data);
+
+    return Py_BuildValue("i", retval);
+}
+
 
 static PyObject *rcSetCPUFreq(PyObject *self, PyObject *args) {
     int retval;
