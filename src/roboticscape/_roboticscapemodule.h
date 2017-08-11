@@ -240,9 +240,9 @@ static PyMethodDef RoboticsCapeMethods[] = {
         "Write a given number of words to a particular I²C device and register."},
     {"rcWriteI2CBit", rcWriteI2CBit, METH_VARARGS,
         "Write one bit to a particular I²C device and register."},
-    {"rcSendI2CByte", rcWriteI2CByte, METH_VARARGS,
+    {"rcSendI2CByte", rcSendI2CByte, METH_VARARGS,
         "Write one byte to the I²C bus (= I²C broadcast)."},
-    {"rcSendI2CBytes", rcWriteI2CBytes, METH_VARARGS,
+    {"rcSendI2CBytes", rcSendI2CBytes, METH_VARARGS,
         "Write a given number of bytes to the I²C bus (= I²C broadcast)."},
 
     {"rcSetCPUFreq", rcSetCPUFreq, METH_VARARGS,
