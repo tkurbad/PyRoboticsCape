@@ -53,7 +53,7 @@ class ButtonState(MyIntEnum):
     PRESSED         = 1
 
 
-class BMPOversample(IntEnum):
+class BMPOversample(MyIntEnum):
     """ Enumeration of BMP280 oversample settings. """
     BMP_OVERSAMPLE_1    = 4     # update rate 182 HZ
     BMP_OVERSAMPLE_2    = 8     # update rate 133 HZ
@@ -62,7 +62,7 @@ class BMPOversample(IntEnum):
     BMP_OVERSAMPLE_16   = 20    # update rate 28 HZ
 
 
-class BMPFilter(IntEnum):
+class BMPFilter(MyIntEnum):
     """ Enumeration of BMP280 filter settings. """
     BMP_FILTER_OFF      = 0
     BMP_FILTER_2        = 4
