@@ -72,6 +72,15 @@ class BMPFilter(MyIntEnum):
     BMP_FILTER_16       = 16
 
 
+class CPUFreq(MyIntEnum):
+    """ Enumeration of possible CPU frequencies. """
+    FREQ_ONDEMAND   = 0
+    FREQ_300MHZ     = 1
+    FREQ_600MHZ     = 2
+    FREQ_800MHZ     = 3
+    FREQ_1000MHZ    = 4
+
+
 # High level methods
 def rcGetStateAsEnum():
     """ Get the current robot state as Python Enum. """
@@ -119,6 +128,21 @@ def rcInitializeBarometer(
     if not BMPFilter.has_value(bmpFilter):
         raise(ValueError('filter value %d not allowed' % bmpFilter))
     return _rcInitializeBarometer(bmpOversample, bmpFilter)
+
+def rcSetCPUFreqByEnum(frequency):
+    """ Set the CPU frequency of the BeagleBone using values provided by
+        the CPUFreq Enum.
+    """
+    if isinstance(frequency, int):
+        rcSetCPUFreq(frequency)
+    if isinstance(frequency, CPUFreq):
+        rcSetCPUFreq(frequency.value)
+
+def rcGetCPUFreqEnum():
+    """ Get the currently set BeagleBone CPU frequency as member of the
+        CPUFreq Enum.
+    """
+    return CPUFreq(rcGetCPUFreq())
 
 
 # Event handlers

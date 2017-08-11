@@ -78,6 +78,11 @@ static PyObject *rcGetBMPPressurePa(PyObject *self, PyObject *args);
 static PyObject *rcGetBMPAltitudeM(PyObject *self, PyObject *args);
 static PyObject *rcSetBMPSeaLevelPressurePa(PyObject *self, PyObject *args);
 
+// TODO: I2C, SPI, UART methods
+
+static PyObject *rcSetCPUFreq(PyObject *self, PyObject *args);
+static PyObject *rcGetCPUFreq(PyObject *self, PyObject *args);
+
 
 // Method definitions
 static PyMethodDef RoboticsCapeMethods[] = {
@@ -182,6 +187,10 @@ static PyMethodDef RoboticsCapeMethods[] = {
         "Get altitude in meters transmitted during last rcReadBarometer call."},
     {"rcSetBMPSeaLevelPressurePa", rcSetBMPSeaLevelPressurePa, METH_VARARGS,
         "Set current sea level pressure to correct altitude reading."},
+    {"rcSetCPUFreq", rcSetCPUFreq, METH_VARARGS,
+        "Set CPU frequency."},
+    {"rcGetCPUFreq", rcGetCPUFreq, METH_NOARGS,
+        "Get CPU frequency setting."},
 
     {NULL, NULL, 0, NULL}        /* Sentinel */
 };
