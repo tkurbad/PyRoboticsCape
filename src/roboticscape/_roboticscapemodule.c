@@ -896,8 +896,41 @@ static PyObject *rcReadI2CByte(PyObject *self, PyObject *args) {
 }
 
 static PyObject *rcReadI2CBytes(PyObject *self, PyObject *args) {
-// int rc_i2c_read_bytes(int bus, uint8_t regAddr, uint8_t length,  uint8_t *data);
-    
+// int (int bus, uint8_t regAddr, uint8_t length,  uint8_t *data);
+    int retval;
+    int bus;
+    int address;
+    int length;
+    uint8_t *data;
+
+    if (!PyArg_ParseTuple(args, "ii", &bus, &address)) {
+        PyErr_SetString(PyExc_ValueError, "Three integer arguments (bus number, register address, data length) required.");
+        return NULL;
+    }
+
+    if ((bus < 1) || (bus > 2)) {
+        PyErr_SetString(PyExc_ValueError, "Bus number must be 1 or 2.");
+        return NULL;
+    }
+
+    if ((address < 0x00) || (address > 0xff)) {
+        PyErr_SetString(PyExc_ValueError, "Register address must be >= 0x00 and <= 0xff.");
+        return NULL;
+    }
+
+    if ((length < 1) || (length > 128)) {
+        PyErr_SetString(PyExc_ValueError, "Data length must be > 0 and <= 128.");
+        return NULL;
+    }
+
+    retval = rc_i2c_read_bytes(bus, (uint8_t)address, (uint8_t)length, &data);
+
+    if (retval != 0) {
+        PyErr_SetString(PyExc_ValueError, "Reading one byte from I²C device failed.");
+        return NULL;
+    }
+
+    return Py_BuildValue("y*", data);
 }
 
 static PyObject *rcReadI2CWord(PyObject *self, PyObject *args) {
