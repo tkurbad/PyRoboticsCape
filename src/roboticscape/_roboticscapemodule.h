@@ -70,7 +70,7 @@ static PyObject *rcCalibrateDSMRoutine(PyObject *self, PyObject *args);
 
 // TODO: IMU methods
 
-static PyObject *_rcInitalizeBarometer(PyObject *self, PyObject *args);
+static PyObject *_rcInitializeBarometer(PyObject *self, PyObject *args);
 static PyObject *rcPowerOffBarometer(PyObject *self, PyObject *args);
 static PyObject *rcReadBarometer(PyObject *self, PyObject *args);
 static PyObject *rcGetBMPTemperature(PyObject *self, PyObject *args);
@@ -168,7 +168,7 @@ static PyMethodDef RoboticsCapeMethods[] = {
     {"rcCalibrateDSMRoutine", rcCalibrateDSMRoutine, METH_NOARGS,
         "Start DSM calibration routine."},
 
-    {"_rcInitalizeBarometer", _rcInitalizeBarometer, METH_VARARGS,
+    {"_rcInitializeBarometer", _rcInitializeBarometer, METH_VARARGS,
         "Power on and initialize barometer with the given oversample and filter settings."},
     {"rcPowerOffBarometer", rcPowerOffBarometer, METH_NOARGS,
         "Power off barometer."},

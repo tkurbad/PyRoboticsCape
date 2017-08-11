@@ -6,8 +6,8 @@
 import atexit
 from enum import IntEnum
 
-import _roboticscape
 from _roboticscape import *
+
 
 # Meta definitions
 class MyIntEnum(IntEnum):
@@ -118,7 +118,7 @@ def rcInitializeBarometer(
         raise(ValueError('oversample value %d not allowed' % bmpOversample))
     if not BMPFilter.has_value(bmpFilter):
         raise(ValueError('filter value %d not allowed' % bmpFilter))
-    return _roboticscape._rcInitializeBarometer(bmpOversample, bmpFilter)
+    return _rcInitializeBarometer(bmpOversample, bmpFilter)
 
 
 # Event handlers

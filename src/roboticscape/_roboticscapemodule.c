@@ -654,7 +654,7 @@ static PyObject *rcCalibrateDSMRoutine(PyObject *self, PyObject *args) {
 
 // TODO: IMU methods
 
-static PyObject *_rcInitalizeBarometer(PyObject *self, PyObject *args) {
+static PyObject *_rcInitializeBarometer(PyObject *self, PyObject *args) {
     int retval;
     int oversample;
     int filter;
